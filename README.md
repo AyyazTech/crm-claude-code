@@ -5,7 +5,7 @@ A complete CRM web app built end to end with **Claude Code** on the [AyyazTech](
 🔔 **Subscribe for more:** https://www.youtube.com/@AyyazTech
 🌐 **More tutorials:** https://ayyaztech.com
 
-<!-- VIDEO_LINK -->
+🎥 **Watch the full build:** https://youtu.be/htwOu6wNuLc
 
 ## Features
 
