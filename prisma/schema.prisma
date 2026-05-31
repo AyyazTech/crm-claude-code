@@ -1,0 +1,58 @@
+// Prisma 7 — new `prisma-client` generator (no `-js`); `output` is required
+// and the client is emitted to src/generated/prisma rather than node_modules.
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "esm"
+  importFileExtension = "ts"
+}
+
+// In Prisma 7 the connection URL lives in prisma.config.ts (via the driver
+// adapter), not here.
+datasource db {
+  provider = "sqlite"
+}
+
+// The single demo login user. Minimal by design: no roles, no email, no reset.
+model User {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+// SQLite does not support Prisma enums, so `status` is a plain String validated
+// against the app-level constants in src/lib/contact-status.ts.
+model Contact {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  phone     String?
+  company   String?
+  status    String   @default("lead")
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deals     Deal[]
+}
+
+// Pipeline deals shown on the Kanban board. `stage` is a plain String validated
+// against the app-level constants in src/lib/deal-stage.ts (SQLite has no enums).
+// `position` is a float so a card can be dropped between two others by taking the
+// midpoint of their positions — no full re-indexing needed.
+model Deal {
+  id        String   @id @default(cuid())
+  title     String
+  value     Int      @default(0) // whole dollars
+  stage     String   @default("lead")
+  position  Float    @default(0)
+  company   String?
+  contactId String?
+  contact   Contact? @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  // Set when a deal is won; drives the revenue-by-month chart on the dashboard.
+  closedAt  DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([stage, position])
+}

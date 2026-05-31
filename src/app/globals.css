@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+/*
+  CRM design system — light, refined, Stripe-adjacent.
+  A dominant neutral (warm-cool zinc) canvas with white surfaces, hairline
+  borders, and a sharp indigo accent used sparingly. Committed to light only.
+*/
+:root {
+  --background: #f6f7f9;
+  --surface: #ffffff;
+  --foreground: #1a1a23;
+  --muted: #6b7280;
+  --border: #e7e8ec;
+  --accent: #4f46e5;
+  --accent-fg: #ffffff;
+  --ring: #6366f1;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius: 0.625rem;
+
+  /* Layered, soft shadows — the quiet kind that read as "trustworthy". */
+  --shadow-card: 0 1px 2px rgba(16, 18, 27, 0.04),
+    0 1px 3px rgba(16, 18, 27, 0.06);
+  --shadow-pop: 0 4px 12px rgba(16, 18, 27, 0.06),
+    0 12px 32px rgba(16, 18, 27, 0.1);
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv01", "ss01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 18%, transparent);
+}
+
+/* Restrained focus ring for the whole app. */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
